@@ -1,6 +1,6 @@
 [project]
 name = "nrtqclib"
-version = "0.1.0"
+version = "0.1.1"
 description = "Near-real-time quality control (NRT QC) for CTD ocean profiles, built on aiqclib"
 readme = "README.md"
 license = "MIT"
