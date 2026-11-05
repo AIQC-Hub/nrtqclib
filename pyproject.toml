@@ -10,9 +10,9 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    # Tighten to ">=0.14,<0.15" once aiqclib 0.14.0 (the extension points in
-    # docs/design/NRTQCLIB_plan.md, Phase 1) is released.
-    "aiqclib>=0.13",
+    # 0.14 adds the extension points this package uses (config and batch
+    # hooks). Widen the upper bound only after the tests pass on the next minor.
+    "aiqclib>=0.14,<0.15",
     "jsonschema>=4.23.0",
     "polars>=1.30.0",
     "pyyaml>=6.0.2",
@@ -41,10 +41,3 @@ packages = ["src/nrtqclib"]
 # Bundle CHANGELOG.md into the installed package.
 [tool.hatch.build.targets.wheel.force-include]
 "CHANGELOG.md" = "nrtqclib/CHANGELOG.md"
-
-# Development only: use the sibling aiqclib checkout, editable, so aiqclib
-# changes (Phase 1 of the migration plan) are picked up without a release.
-# Remove before the first release: CI runs `uv sync --locked` and cannot see
-# ../aiqclib.
-[tool.uv.sources]
-aiqclib = { path = "../aiqclib", editable = true }

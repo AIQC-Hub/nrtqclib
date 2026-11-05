@@ -11,7 +11,7 @@
 - The `aiqclib` names this package may import are listed in `CONTRACT` in aiqclib `tests/test_common_public_api.py`. Importing a name not listed there needs a matching addition in `aiqclib` first.
 - aiqclib 0.14.0 emits a `DeprecationWarning` from its own NRT QC copy (`run_nrt_qc`, `NRTQCConfig`, `read_config` on `nrt_qc_sets`, `run_batch(mode="nrt_qc")`). Seeing one in tests here means an import still points at `aiqclib`.
 - Still to port: `test_summary_lists_qc_items` (aiqclib `tests/test_common_base_config.py`), the `nrt_qc` cases in aiqclib `tests/test_interface_config.py`, `tests/test_interface_batch.py` and `tests/test_common_utils_progress.py`, `read_config` / `read_config_template` / `write_config_template` and `run_batch` (the `nrt_qc` batch phase, see the batch bullet above) for this package, the `nrt_qc` section of aiqclib `docs/source/how-to/batch_processing.rst`, `docs/source/api/` (regenerate).
-- `pyproject.toml` takes `aiqclib` from `../aiqclib` (editable, `[tool.uv.sources]`). 0.14.0 is on PyPI, so it can switch to the pin `aiqclib>=0.14,<0.15` (drop the `[tool.uv.sources]` entry, `uv sync`); it must before release, since CI's `uv sync --locked` cannot see `../aiqclib`.
+- `aiqclib` comes from PyPI (`aiqclib>=0.14,<0.15`). Do not add a `[tool.uv.sources]` path to `../aiqclib`: CI's `uv sync --locked` cannot see it. To test against unreleased aiqclib code, use `uv run --with-editable ../aiqclib pytest` for that run only.
 
 ## Environment
 
