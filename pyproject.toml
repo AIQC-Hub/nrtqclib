@@ -11,8 +11,10 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     # 0.14 adds the extension points this package uses (config and batch
-    # hooks). Widen the upper bound only after the tests pass on the next minor.
-    "aiqclib>=0.14,<0.16",
+    # hooks); 0.15.2 makes the QC items treat NaN as missing, which ctddump
+    # input needs. Widen the upper bound only after the tests pass on the next
+    # minor.
+    "aiqclib>=0.15.2,<0.16",
     "jsonschema>=4.23.0",
     "polars>=1.30.0",
     "pyyaml>=6.0.2",

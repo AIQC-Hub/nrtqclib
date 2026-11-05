@@ -60,9 +60,7 @@ Things to Know
 
 * A step flags the levels on both sides of it, since each has the step
   between it and one neighbour.
-* A null value passes, and so do its neighbours. A ``NaN`` fails, and so
-  do both its neighbours; see
-  :ref:`ctddump-nan`.
+* A missing value (null or ``NaN``) passes, and so do its neighbours.
 * The first and last observations of a profile, and values next to a missing
   one, always pass.
 * The test is sensitive to the vertical resolution: at coarse spacing, a real

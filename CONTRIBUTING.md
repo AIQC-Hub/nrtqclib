@@ -12,7 +12,7 @@ We use **uv** for the development environment. Install it with
 uv sync    # creates .venv and installs nrtqclib (editable) with all dependencies
 ```
 
-`aiqclib` comes from PyPI (`aiqclib>=0.14,<0.16`). To try the tests against
+`aiqclib` comes from PyPI (`aiqclib>=0.15.2,<0.16`). To try the tests against
 an unreleased `aiqclib`, overlay a local checkout for one run without touching
 `pyproject.toml` or `uv.lock`:
 

@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 As this project is still in active development, it does not yet strictly adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Require `aiqclib>=0.15.2`, whose QC items treat NaN as missing like null; `ctddump` input, which stores missing values as NaN, no longer gets them flagged 4
+
+### Removed
+- Docs: the NaN-to-null conversion step of the `ctddump` tutorial, no longer needed
 
 ## [0.1.2] - 2026-11-05
 ### Added
