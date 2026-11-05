@@ -41,121 +41,14 @@ object, and ``print(config)`` summarizes what a configuration will run.
 The QC items
 ------------
 
-``aiqclib`` provides eleven QC items. Ten implement the Argo/CTD real-time
-tests (RTQC2 to RTQC14); ``temp_to_psal`` is the propagation rule from the
-NRT QC recommendation document rather than a numbered test. An item runs
-only when it is listed in the ``qc_item_sets`` section of the configuration
-file.
+``aiqclib`` provides twelve QC items. Eleven implement the Argo/CTD
+real-time tests (RTQC2 to RTQC14); ``temp_to_psal`` is the propagation rule
+from the NRT QC recommendation document rather than a numbered test. An item
+runs only when it is listed in the ``qc_item_sets`` section of the
+configuration file.
 
-Profile-level tests produce one result for the whole profile, applied to
-every observation in it:
-
-``impossible_date`` (RTQC2)
-   The profile timestamp must be present, later than ``min_year`` (1950 by
-   default), and not in the future at processing time.
-
-``impossible_location`` (RTQC3)
-   Latitude must lie within [-90, 90] and longitude within [-180, 180]. A
-   missing position fails.
-
-``position_on_land`` (RTQC4)
-   The position must be in the ocean. The recommendation checks it against a
-   bathymetry grid; this implementation instead reads a column already
-   present in the input, holding the sea floor depth at the position, which
-   is what such a lookup would have produced. **Computing that column is
-   your job**, done upstream where the input is assembled.
-
-   ``depth_column`` names the column, ``bathymetry`` by default. It is
-   deliberately not ``depth``: this is the depth of the sea floor, not of
-   the measurement, and an input may carry both. Reading a measurement
-   depth as bathymetry would flag every shallow observation as being on
-   land, so the two are kept apart by name.
-
-   ``positive_depth`` says which sign means deeper: with :obj:`True` (the
-   default) the ocean is ``depth > 0``, and with :obj:`False` it is
-   ``depth < 0``. Sea level itself counts as land under both conventions.
-   Get this wrong and the test inverts completely, so check your data
-   before enabling the item.
-
-   A null depth passes, since unknown bathymetry is not evidence of land,
-   but a **missing column is an error**: an input without the column cannot
-   run this test, and silently passing every row would be worse than saying
-   so.
-
-   The item is **not in the configuration template**, because most inputs
-   carry no such column. Add it by name to enable it:
-
-   .. code-block:: yaml
-
-      - name: position_on_land
-        params: { depth_column: bath, positive_depth: false }
-
-``stuck_value`` (RTQC13)
-   All non-null measurements of a variable being identical indicates a stuck
-   sensor, so the variable is flagged throughout the profile. Profiles with
-   fewer than ``min_observations`` (2 by default) measurements are exempt, as
-   are variables that were not measured.
-
-Observation-level tests produce one result per measurement:
-
-``global_range`` (RTQC6)
-   A gross filter wide enough to accommodate all expected ocean extremes:
-   temperature within [-2.5, 40.0] °C and salinity within [2.0, 41.0] by
-   default. Null values pass, since a missing measurement cannot be
-   range-checked.
-
-``regional_range`` (RTQC7)
-   The same check against the tighter ranges of the configuration file's
-   region. There are **no built-in defaults**; supply your region's bounds
-   or the item raises an error rather than silently passing everything.
-
-``pressure_increasing`` (RTQC8)
-   Pressures must increase down the profile. Within a run of constant
-   pressure all but the first observation are flagged; where pressure
-   reverses, every observation below the running maximum is flagged. Pressure
-   is shared by all variables, so this test yields a single column.
-
-``spike`` (RTQC9)
-   A measurement that differs sharply from both vertical neighbours in size
-   and gradient, scored as ``|V2 - (V3 + V1)/2| - |(V3 - V1)/2|``. Thresholds
-   are depth-dependent (temperature 6.0/2.0 °C and salinity 0.9/0.3 either
-   side of 500 db by default). Observations at a profile boundary always pass.
-
-``gradient`` (RTQC11)
-   Too steep a difference from the vertical neighbours, scored as
-   ``|V2 - (V3 + V1)/2|`` against depth-dependent thresholds (temperature
-   9.0/3.0 °C and salinity 1.5/0.5 by default).
-
-``digit_rollover`` (RTQC12)
-   Sensors store values in a limited bit range and wrap around to the low end
-   when it is exceeded. An uncompensated rollover shows up as a jump from the
-   previous observation beyond the threshold (10.0 °C for temperature, 5.0
-   for salinity by default).
-
-``density_inversion`` (RTQC14)
-   The potential density anomaly sigma-0 (UNESCO 1983) must not decrease with
-   depth by more than ``threshold`` (0.03 kg/m³ by default). Consecutive
-   levels are compared in both directions, so both members of an inverted
-   pair are flagged. Density combines temperature and salinity, so the two
-   variables are flagged jointly.
-
-   An observation whose temperature, salinity or pressure is missing has no
-   density and passes. So does one whose values are impossible rather than
-   merely wrong, such as a negative salinity or a placeholder like -999 or a
-   netCDF fill value: the equation of state is a fit to measurements of sea
-   water and returns nothing meaningful for them. Treating those as missing
-   also keeps the observation **next to** them honest, since a density
-   hundreds of units off would otherwise read as an inversion at the good
-   level. The accepted ranges are far wider than the global range test, so
-   no real measurement is affected; they are
-   :data:`~aiqclib.common.utils.seawater.SALINITY_LIMITS`,
-   :data:`~aiqclib.common.utils.seawater.TEMPERATURE_LIMITS` and
-   :data:`~aiqclib.common.utils.seawater.PRESSURE_LIMITS`.
-
-``temp_to_psal``
-   Not a test but a propagation rule: where the aggregated temperature flag
-   is 3 or 4, salinity inherits it at the same severity. See
-   `Temperature-to-salinity propagation`_ below.
+Each item has its own page, explaining why the check matters and what it
+flags, with a diagram: start at :doc:`../qc_items/overview`.
 
 For the output column names, the full default parameters, and the YAML
 syntax for overriding them, see :doc:`../configuration/nrtqc`.
