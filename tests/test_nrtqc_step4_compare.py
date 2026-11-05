@@ -11,13 +11,13 @@ import polars as pl
 import pytest
 from polars.exceptions import ColumnNotFoundError
 
-from aiqclib.common.loader.nrtqc_loader import (
+from nrtqclib.loader.nrtqc_loader import (
     load_nrtqc_step1_input_dataset,
     load_nrtqc_step2_qc_dataset,
     load_nrtqc_step3_concat_dataset,
     load_nrtqc_step4_compare_dataset,
 )
-from aiqclib.nrtqc.step4_compare_flags.dataset_all import CompareFlagsAll
+from nrtqclib.step4_compare_flags.dataset_all import CompareFlagsAll
 
 
 def make_merged_frame(temp_qc_dtype: pl.DataType = pl.Int64) -> pl.DataFrame:

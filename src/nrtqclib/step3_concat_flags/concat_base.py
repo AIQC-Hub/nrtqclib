@@ -28,7 +28,7 @@ from aiqclib.common.base.dataset_base import DataSetBase
 from aiqclib.common.loader.feature_registry import FEATURE_REGISTRY
 from aiqclib.common.utils.qc_flags import FLAG_GOOD, worst_flag
 from aiqclib.prepare.features.qc_item_base import OBSERVATION_KEYS
-from aiqclib.nrtqc.step2_run_qc.qc_base import DEFERRED_QC_ITEMS
+from nrtqclib.step2_run_qc.qc_base import DEFERRED_QC_ITEMS
 
 
 class ConcatFlagsBase(DataSetBase):

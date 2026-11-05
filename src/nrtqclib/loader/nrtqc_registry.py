@@ -6,13 +6,13 @@ of the correct class during each step of the NRT QC pipeline.
 
 from typing import Dict, Type
 
-from aiqclib.nrtqc.step1_read_input.dataset_all import InputDataSetAll
-from aiqclib.nrtqc.step2_run_qc.dataset_all import QCDataSetAll
-from aiqclib.nrtqc.step2_run_qc.qc_base import QCDataSetBase
-from aiqclib.nrtqc.step3_concat_flags.concat_base import ConcatFlagsBase
-from aiqclib.nrtqc.step3_concat_flags.dataset_all import ConcatDataSetAll
-from aiqclib.nrtqc.step4_compare_flags.compare_base import CompareFlagsBase
-from aiqclib.nrtqc.step4_compare_flags.dataset_all import CompareFlagsAll
+from nrtqclib.step1_read_input.dataset_all import InputDataSetAll
+from nrtqclib.step2_run_qc.dataset_all import QCDataSetAll
+from nrtqclib.step2_run_qc.qc_base import QCDataSetBase
+from nrtqclib.step3_concat_flags.concat_base import ConcatFlagsBase
+from nrtqclib.step3_concat_flags.dataset_all import ConcatDataSetAll
+from nrtqclib.step4_compare_flags.compare_base import CompareFlagsBase
+from nrtqclib.step4_compare_flags.dataset_all import CompareFlagsAll
 from aiqclib.prepare.step1_read_input.input_base import InputDataSetBase
 
 #: A registry mapping class names (as strings, typically from YAML

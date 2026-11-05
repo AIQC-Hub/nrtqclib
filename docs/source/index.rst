@@ -14,9 +14,16 @@ machine-learning models.
    :caption: How-to guides
 
    how-to/nrt_qc
+   how-to/batch_processing
 
 .. toctree::
    :maxdepth: 2
    :caption: Configuration
 
    configuration/nrtqc
+
+.. toctree::
+   :maxdepth: 4
+   :caption: API Reference
+
+   api/modules
