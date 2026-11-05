@@ -64,9 +64,7 @@ Things to Know
 --------------
 
 * Only V2 is flagged, not its neighbours.
-* A null value passes, and so do its neighbours. A ``NaN`` fails, and so
-  do both its neighbours; see
-  :ref:`ctddump-nan`.
+* A missing value (null or ``NaN``) passes, and so do its neighbours.
 * The first and last observations of a profile have no complete stencil and
   always pass, as do values next to a missing one.
 * A spike two levels thick is not caught: each of its values has one

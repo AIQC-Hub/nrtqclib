@@ -6,6 +6,13 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-05
+### Changed
+- Require `aiqclib>=0.15.2`, whose QC items treat NaN as missing like null; `ctddump` input, which stores missing values as NaN, no longer gets them flagged 4
+
+### Removed
+- Docs: the NaN-to-null conversion step of the `ctddump` tutorial, no longer needed
+
 ## [0.1.2] - 2026-11-05
 ### Added
 - Docs: a Getting Started tutorial (overview, installation, `ctddump`, `seastamp`, running NRT QC) and a page per QC item with diagrams drawn by `docs/diagrams/make_qc_diagrams.py`

@@ -89,12 +89,8 @@ cannot be checked, and failing it would mix "absent" with "bad". The date and
 location items are the exception, because a profile without a date or a
 position cannot be placed at all.
 
-.. warning::
-
-   Only a *null* counts as missing. A floating point ``NaN`` is read as a
-   value, and fails the range, spike, gradient and digit rollover tests. Files written by
-   ``ctddump`` use ``NaN``; see :ref:`the conversion step <ctddump-nan>` of
-   the tutorial.
+A floating-point ``NaN``, which is how ``ctddump`` stores a missing value,
+counts as missing exactly like null.
 
 Output Columns
 --------------
