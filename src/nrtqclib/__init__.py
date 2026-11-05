@@ -11,6 +11,12 @@ Attributes:
 
 from importlib.metadata import version, PackageNotFoundError
 
+from nrtqclib.interface.batch import run_batch
+from nrtqclib.interface.config import (
+    read_config,
+    read_config_template,
+    write_config_template,
+)
 from nrtqclib.interface.nrtqc import run_nrt_qc
 
 try:
@@ -20,5 +26,9 @@ except PackageNotFoundError:
 
 
 __all__ = [
+    "read_config",
+    "read_config_template",
+    "run_batch",
     "run_nrt_qc",
+    "write_config_template",
 ]

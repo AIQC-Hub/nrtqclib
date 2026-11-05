@@ -17,12 +17,24 @@ Quick start
 
 .. code-block:: python
 
-   import aiqclib as aq
+   import nrtqclib as nq
 
-   aq.write_config_template(file_name="/path/to/nrt_qc_config.yaml", stage="nrt_qc")
+   nq.write_config_template("/path/to/nrt_qc_config.yaml")
    # Edit the paths, variables, and QC items in the YAML, then:
-   config = aq.read_config("/path/to/nrt_qc_config.yaml")
-   aq.run_nrt_qc(config)
+   config = nq.read_config("/path/to/nrt_qc_config.yaml")
+   nq.run_nrt_qc(config)
+
+``nq.read_config_template()`` returns the same template as a configuration
+object, and ``print(config)`` summarizes what a configuration will run.
+
+.. note::
+
+   Migrating from ``aiqclib``: ``aq.run_nrt_qc``, ``aq.read_config`` and
+   ``aq.read_config_template("nrt_qc")`` become the ``nq.`` functions above
+   with the same arguments, minus ``stage``.
+   ``aq.write_config_template(path, stage="nrt_qc")`` becomes
+   ``nq.write_config_template(path)``. The pipeline, configuration format and
+   outputs are unchanged.
 
 .. _nrt-qc-items:
 
@@ -244,22 +256,20 @@ are written to the output unchanged, whatever type they use.
 Running several regions at once
 -------------------------------
 
-``run_batch`` drives NRT QC over a table of datasets the same way it drives
-the other workflows:
+``run_batch`` drives NRT QC over a table of datasets:
 
 .. code-block:: python
 
-   summary = aq.run_batch(
+   summary = nq.run_batch(
        "datasets.txt",
-       mode="nrt_qc",
        nrt_qc_config="nrt_qc_config.yaml",
        verbose=True,
    )
 
 Each row's ``nrt_qc_set_name`` names the set to select, so one configuration
 file holding one entry per region replaces the per-region files suggested
-above. Note that ``mode="all"`` does **not** include NRT QC: see
-:ref:`batch-nrt-qc` for why, and for the ordering that follows from it.
+above. See :doc:`batch_processing` for the table format, and
+:ref:`batch-nrt-qc` for how this fits with ``aiqclib``'s training batch.
 
 Using QC items as training features
 -----------------------------------
@@ -267,5 +277,5 @@ Using QC items as training features
 Every QC item is an ordinary feature class registered under a
 ``qc_``-prefixed name (``qc_spike``, ``qc_global_range``, …), so the flag
 columns can also be produced inside the Dataset Preparation pipeline and used
-as model inputs. See :doc:`qc_items_as_features` for how to configure that,
+as model inputs. See :doc:`aiqclib:how-to/qc_items_as_features` for how to configure that,
 and for the two items that need extra care there.

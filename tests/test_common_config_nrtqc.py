@@ -367,3 +367,37 @@ class TestNRTQCTemplatePaths:
                 "/path/to/data/nrt_qc_0001/compare/nrt_qc_flag_comparison_psal.tsv"
             ),
         }
+
+
+class TestSummary:
+    """``summary()`` from ``ConfigBase``, on an NRT QC config."""
+
+    def test_summary_lists_qc_items(self, nrtqc_config_001):
+        """An NRT QC config reports its enabled items where features would be."""
+        text = nrtqc_config_001.summary()
+
+        assert "qc items" in text
+        for item_name in nrtqc_config_001.get_qc_item_names():
+            assert item_name in text
+
+
+class TestConfigHooks:
+    """The ``ConfigBase`` hooks that serve this package's schema and template."""
+
+    def test_schema_for_own_section(self):
+        assert NRTQCConfig.get_yaml_schema("nrt_qc_sets") == get_nrtqc_config_schema()
+
+    def test_template_for_own_name(self):
+        text = NRTQCConfig.get_template_text("template:nrt_qc_sets")
+        assert "nrt_qc_sets:" in text
+
+    def test_other_sections_defer_to_aiqclib(self):
+        """Sections aiqclib owns still resolve through the subclass."""
+        assert "properties" in NRTQCConfig.get_yaml_schema("data_sets")
+        assert "data_sets:" in NRTQCConfig.get_template_text("template:data_sets")
+
+    def test_unknown_names_are_rejected(self):
+        with pytest.raises(ValueError, match="not supported"):
+            NRTQCConfig.get_yaml_schema("no_sets")
+        with pytest.raises(ValueError, match="not supported"):
+            NRTQCConfig.get_template_text("template:no_sets")
