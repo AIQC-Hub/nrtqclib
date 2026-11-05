@@ -11,8 +11,8 @@ features for its machine-learning models.
 
 > **Status:** moved out of `aiqclib` (where it shipped as
 > `aiqclib.run_nrt_qc` from v0.5.0). See
-> [`docs/design/NRTQCLIB_plan.md`](docs/design/NRTQCLIB_plan.md). Not yet on
-> PyPI.
+> [`docs/design/NRTQCLIB_plan.md`](docs/design/NRTQCLIB_plan.md). Install
+> with `pip install nrtqclib`.
 
 ## Usage
 
