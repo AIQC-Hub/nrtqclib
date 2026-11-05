@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 As this project is still in active development, it does not yet strictly adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.1] - 2026-11-05
 ### Changed
 - Allow `aiqclib` 0.15 (`aiqclib>=0.14,<0.16`), which removes its own NRT QC copy; tests pass against 0.15.0 and 0.14.0
 
