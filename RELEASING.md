@@ -8,7 +8,7 @@ Follow these steps in order. Steps marked *if necessary* only apply when the
 relevant code has changed since the last release.
 
 1. **Check the `aiqclib` dependency.** `pyproject.toml` must pin a released
-   `aiqclib` range (for example `aiqclib>=0.14,<0.15`), and the development-only
+   `aiqclib` range (for example `aiqclib>=0.14,<0.16`), and the development-only
    `[tool.uv.sources]` path entry must be removed. Widen the upper bound only
    after the tests pass against the new `aiqclib` minor version.
 2. **Lint and format** *(if necessary)*:

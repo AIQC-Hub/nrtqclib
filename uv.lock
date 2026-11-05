@@ -15,7 +15,7 @@ resolution-markers = [
 
 [[package]]
 name = "aiqclib"
-version = "0.14.0"
+version = "0.15.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "joblib" },
@@ -31,9 +31,9 @@ dependencies = [
     { name = "shap" },
     { name = "xgboost" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/22/96/ad284e74434276aaa35de3ee7ba12d0a5dab65e06b8931e243c18db51a5c/aiqclib-0.14.0.tar.gz", hash = "sha256:aa01aceaed50df48892c6b19c9ff056177ace29b6c0b5fdfd6f08155da440f51", size = 597992, upload-time = "2026-11-05T18:29:39.841Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f3/ba/65400fe8d382ea715338a827a978b396d8576a6ea072520379cb90c1e0f1/aiqclib-0.15.0.tar.gz", hash = "sha256:95c206be13fb5ed2201e181615b1680de33b1a97cc2dfbe5e79e9e2a7fa96907", size = 549572, upload-time = "2026-11-05T21:10:25.728Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1a/cc/81225626b97a9e6fd35e2719888e684c5706e7fed725191282e707b80e96/aiqclib-0.14.0-py3-none-any.whl", hash = "sha256:e57c4033e48ffc5ad72099c218caa5bccd8c80fd6faf7a67666e072a069e206f", size = 307920, upload-time = "2026-11-05T18:29:38.102Z" },
+    { url = "https://files.pythonhosted.org/packages/e2/1f/6fcc9a4f53d5b0d1833977a0700676d6842b995ec1d9c87c4b633ad46987/aiqclib-0.15.0-py3-none-any.whl", hash = "sha256:4bd6a47c64647de3a41c9df32561d27138579f5d5a450f95261d2eec7424d74a", size = 285462, upload-time = "2026-11-05T21:10:24.073Z" },
 ]
 
 [[package]]
@@ -924,7 +924,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiqclib", specifier = ">=0.14,<0.15" },
+    { name = "aiqclib", specifier = ">=0.14,<0.16" },
     { name = "jsonschema", specifier = ">=4.23.0" },
     { name = "polars", specifier = ">=1.30.0" },
     { name = "pyyaml", specifier = ">=6.0.2" },
