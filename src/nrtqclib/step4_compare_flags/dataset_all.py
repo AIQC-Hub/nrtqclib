@@ -9,13 +9,13 @@ from typing import Optional
 import polars as pl
 
 from aiqclib.common.base.config_base import ConfigBase
-from aiqclib.nrtqc.step4_compare_flags.compare_base import CompareFlagsBase
+from nrtqclib.step4_compare_flags.compare_base import CompareFlagsBase
 
 
 class CompareFlagsAll(CompareFlagsBase):
     """
     A specialized implementation of
-    :class:`aiqclib.nrtqc.step4_compare_flags.compare_base.CompareFlagsBase`
+    :class:`nrtqclib.step4_compare_flags.compare_base.CompareFlagsBase`
     that compares the flags of all observations.
 
     :cvar expected_class_name: The class identifier used for configuration matching.

@@ -10,7 +10,7 @@ import os
 import polars as pl
 import pytest
 
-from aiqclib.common.loader.nrtqc_loader import (
+from nrtqclib.loader.nrtqc_loader import (
     load_nrtqc_step1_input_dataset,
     load_nrtqc_step2_qc_dataset,
 )

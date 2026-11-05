@@ -9,13 +9,13 @@ from typing import Optional
 import polars as pl
 
 from aiqclib.common.base.config_base import ConfigBase
-from aiqclib.nrtqc.step2_run_qc.qc_base import QCDataSetBase
+from nrtqclib.step2_run_qc.qc_base import QCDataSetBase
 
 
 class QCDataSetAll(QCDataSetBase):
     """
     A specialized implementation of
-    :class:`aiqclib.nrtqc.step2_run_qc.qc_base.QCDataSetBase` that applies
+    :class:`nrtqclib.step2_run_qc.qc_base.QCDataSetBase` that applies
     the configured QC items to all observations.
 
     :cvar expected_class_name: The class identifier used for configuration matching.

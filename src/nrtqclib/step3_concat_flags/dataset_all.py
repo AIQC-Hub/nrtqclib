@@ -9,13 +9,13 @@ from typing import Optional
 import polars as pl
 
 from aiqclib.common.base.config_base import ConfigBase
-from aiqclib.nrtqc.step3_concat_flags.concat_base import ConcatFlagsBase
+from nrtqclib.step3_concat_flags.concat_base import ConcatFlagsBase
 
 
 class ConcatDataSetAll(ConcatFlagsBase):
     """
     A specialized implementation of
-    :class:`aiqclib.nrtqc.step3_concat_flags.concat_base.ConcatFlagsBase`
+    :class:`nrtqclib.step3_concat_flags.concat_base.ConcatFlagsBase`
     that aggregates the QC item flags of all observations.
 
     :cvar expected_class_name: The class identifier used for configuration matching.

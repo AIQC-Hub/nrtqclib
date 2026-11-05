@@ -10,7 +10,7 @@ import os
 import polars as pl
 import pytest
 
-from aiqclib.common.loader.nrtqc_loader import load_nrtqc_step3_concat_dataset
+from nrtqclib.loader.nrtqc_loader import load_nrtqc_step3_concat_dataset
 
 
 def make_flag_frame(**flag_columns) -> pl.DataFrame:

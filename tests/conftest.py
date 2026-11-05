@@ -1,8 +1,7 @@
 """Shared pytest fixtures for the nrtqclib test suite.
 
 The path fixtures and ``nrtqc_config_001`` are the NRT QC subset of
-aiqclib's ``tests/conftest.py``, copied unchanged (including the
-``aiqclib`` import, which the porting step rewrites to ``nrtqclib``).
+aiqclib's ``tests/conftest.py``.
 
 Test output files go under ``DATA_DIR / "test"`` (gitignored). Use the
 ``test_output_dir`` fixture and clean up manually with ``os.remove`` so
@@ -13,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from aiqclib.common.config.nrtqc_config import NRTQCConfig
+from nrtqclib.config.nrtqc_config import NRTQCConfig
 
 
 TESTS_DIR: Path = Path(__file__).resolve().parent

@@ -1,4 +1,4 @@
-"""NRT QC YAML schema, copied unchanged from aiqclib.common.config.yaml_schema."""
+"""JSON schema (as YAML text) for the ``nrt_qc_sets`` configuration section."""
 
 
 def get_nrtqc_config_schema() -> str:

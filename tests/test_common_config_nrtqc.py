@@ -20,8 +20,8 @@ import yaml
 from jsonschema import validate as jsonschema_validate
 from jsonschema.exceptions import ValidationError
 
-from aiqclib.common.config.nrtqc_config import NRTQCConfig
-from aiqclib.common.config.yaml_schema import get_nrtqc_config_schema
+from nrtqclib.config.nrtqc_config import NRTQCConfig
+from nrtqclib.config.yaml_schema import get_nrtqc_config_schema
 
 TEMPLATE = "template:nrt_qc_sets"
 
