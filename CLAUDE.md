@@ -4,7 +4,7 @@
 
 ## aiqclib dependency
 
-- `aiqclib` comes from PyPI (`aiqclib>=0.14,<0.16`). Do not add a `[tool.uv.sources]` path to `../aiqclib`: CI's `uv sync --locked` cannot see it. To test against unreleased aiqclib code, use `uv run --with-editable ../aiqclib pytest` for that run only. Do not edit `../aiqclib` from this repo.
+- `aiqclib` comes from PyPI (`aiqclib>=0.15.2,<0.16`). Do not add a `[tool.uv.sources]` path to `../aiqclib`: CI's `uv sync --locked` cannot see it. To test against unreleased aiqclib code, use `uv run --with-editable ../aiqclib pytest` for that run only. Do not edit `../aiqclib` from this repo.
 - The `aiqclib` names this package may import are listed in `CONTRACT` in aiqclib `tests/test_common_public_api.py`. Importing a name not listed there needs a matching addition in `aiqclib` first.
 
 ## Environment

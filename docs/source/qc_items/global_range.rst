@@ -48,8 +48,8 @@ it with its own range.
 Things to Know
 --------------
 
-* A null value passes, since it cannot be range-checked. A ``NaN`` fails;
-  see :ref:`ctddump-nan`.
+* A missing value (null or ``NaN``) passes, since it cannot be
+  range-checked.
 * Because the ranges are so wide, this test rarely fires on real data, and
   then mostly on fill values. A value it lets through can still be wrong for
   its region or depth; that is the job of the regional range, spike and

@@ -49,5 +49,4 @@ Things to Know
   whole run. The levels in between often fail other tests (global or regional
   range), which then decide the final flag.
 * The first observation of a profile has no previous value and passes.
-* A missing value passes, and so does the value after it. A ``NaN`` fails,
-  and so does the value after it; see :ref:`ctddump-nan`.
+* A missing value (null or ``NaN``) passes, and so does the value after it.

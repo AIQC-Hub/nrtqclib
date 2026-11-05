@@ -136,29 +136,9 @@ Column                  Used for
 ``psal_qc``             flags in the report (optional)
 ======================= ==========================================================
 
-.. _ctddump-nan:
-
-Turning NaN Into Null
----------------------
-
-``ctddump`` stores a missing measurement as ``NaN``. The QC items treat a
-*null* as missing and let it pass, but they read ``NaN`` as a value larger
-than any other, so it fails the range, spike, gradient and digit rollover
-tests. Convert ``NaN`` to null before running NRT QC:
-
-.. code-block:: python
-
-   import polars as pl
-
-   path = "~/aiqc_project/input/nrt_bo.parquet"
-   df = pl.read_parquet(path)
-   df.with_columns(pl.col(pl.Float32, pl.Float64).fill_nan(None)).write_parquet(path)
-
-Without this, every missing temperature or salinity gets flag ``4`` in
-``temp_nrt_flag`` / ``psal_nrt_flag``, and ``temp_to_psal`` passes the
-temperature failures on to salinity. On ctddump's five Baltic test files,
-64 missing temperatures turned into 1,366 observations flagged 4 instead of
-none. The comparison report is skewed accordingly.
+``ctddump`` stores a missing measurement as ``NaN`` rather than null. The QC
+items treat both as missing, so the file needs no conversion; the output
+keeps the ``NaN`` values as they were.
 
 .. note::
 
