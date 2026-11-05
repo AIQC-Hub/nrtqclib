@@ -12,9 +12,13 @@ We use **uv** for the development environment. Install it with
 uv sync    # creates .venv and installs nrtqclib (editable) with all dependencies
 ```
 
-During the migration from `aiqclib`, `pyproject.toml` takes `aiqclib` from a
-sibling checkout (`../aiqclib`, editable). Clone it next to this repository
-first.
+`aiqclib` comes from PyPI (`aiqclib>=0.14,<0.15`). To try the tests against
+an unreleased `aiqclib`, overlay a local checkout for one run without touching
+`pyproject.toml` or `uv.lock`:
+
+```bash
+uv run --with-editable ../aiqclib pytest
+```
 
 ## Running tests
 

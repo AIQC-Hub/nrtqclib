@@ -16,7 +16,7 @@ resolution-markers = [
 [[package]]
 name = "aiqclib"
 version = "0.14.0"
-source = { editable = "../aiqclib" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "joblib" },
     { name = "jsonschema" },
@@ -31,32 +31,9 @@ dependencies = [
     { name = "shap" },
     { name = "xgboost" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "joblib", specifier = ">=1.4.2" },
-    { name = "jsonschema", specifier = ">=4.23.0" },
-    { name = "matplotlib", specifier = ">=3.10.8" },
-    { name = "numba", specifier = ">=0.62" },
-    { name = "numpy", specifier = ">=2.2" },
-    { name = "pandas", specifier = ">=2.2" },
-    { name = "polars", specifier = ">=1.30.0" },
-    { name = "pyarrow", specifier = ">=19.0.0" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "scikit-learn", specifier = ">=1.6.1" },
-    { name = "shap", specifier = ">=0.51.0" },
-    { name = "xgboost", specifier = ">=3.0.2" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pytest", specifier = ">=8.4.0" },
-    { name = "pytest-cov", specifier = ">=6.2.1" },
-    { name = "ruff", specifier = ">=0.14.0" },
-    { name = "sphinx", specifier = ">=8.2.3" },
-    { name = "sphinx-autodoc-typehints", specifier = ">=3.2.0" },
-    { name = "sphinx-rtd-theme", specifier = ">=3.0.2" },
-    { name = "sphinx-tabs", specifier = ">=3.4.7" },
+sdist = { url = "https://files.pythonhosted.org/packages/22/96/ad284e74434276aaa35de3ee7ba12d0a5dab65e06b8931e243c18db51a5c/aiqclib-0.14.0.tar.gz", hash = "sha256:aa01aceaed50df48892c6b19c9ff056177ace29b6c0b5fdfd6f08155da440f51", size = 597992, upload-time = "2026-11-05T18:29:39.841Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1a/cc/81225626b97a9e6fd35e2719888e684c5706e7fed725191282e707b80e96/aiqclib-0.14.0-py3-none-any.whl", hash = "sha256:e57c4033e48ffc5ad72099c218caa5bccd8c80fd6faf7a67666e072a069e206f", size = 307920, upload-time = "2026-11-05T18:29:38.102Z" },
 ]
 
 [[package]]
@@ -947,7 +924,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiqclib", editable = "../aiqclib" },
+    { name = "aiqclib", specifier = ">=0.14,<0.15" },
     { name = "jsonschema", specifier = ">=4.23.0" },
     { name = "polars", specifier = ">=1.30.0" },
     { name = "pyyaml", specifier = ">=6.0.2" },
