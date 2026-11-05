@@ -3,9 +3,9 @@ This module provides factory functions to dynamically load and instantiate
 the dataset processing steps of the NRT QC pipeline.
 
 It uses an NRT QC configuration object
-(:class:`aiqclib.common.config.nrtqc_config.NRTQCConfig`) to determine which
+(:class:`nrtqclib.config.nrtqc_config.NRTQCConfig`) to determine which
 implementation should be loaded for each step, relying on the registries in
-:mod:`aiqclib.common.loader.nrtqc_registry` to map class names from the
+:mod:`nrtqclib.loader.nrtqc_registry` to map class names from the
 configuration to their Python types.
 """
 
@@ -15,15 +15,15 @@ import polars as pl
 
 from aiqclib.common.base.config_base import ConfigBase
 from aiqclib.common.base.dataset_base import DataSetBase
-from aiqclib.common.loader.nrtqc_registry import (
+from nrtqclib.loader.nrtqc_registry import (
     COMPARE_NRTQC_REGISTRY,
     CONCAT_NRTQC_REGISTRY,
     INPUT_NRTQC_REGISTRY,
     QC_NRTQC_REGISTRY,
 )
-from aiqclib.nrtqc.step2_run_qc.qc_base import QCDataSetBase
-from aiqclib.nrtqc.step3_concat_flags.concat_base import ConcatFlagsBase
-from aiqclib.nrtqc.step4_compare_flags.compare_base import CompareFlagsBase
+from nrtqclib.step2_run_qc.qc_base import QCDataSetBase
+from nrtqclib.step3_concat_flags.concat_base import ConcatFlagsBase
+from nrtqclib.step4_compare_flags.compare_base import CompareFlagsBase
 from aiqclib.prepare.step1_read_input.input_base import InputDataSetBase
 
 

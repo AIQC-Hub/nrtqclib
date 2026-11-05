@@ -1,4 +1,4 @@
-"""NRT QC YAML template, copied unchanged from aiqclib.common.config.yaml_templates."""
+"""YAML template for the ``nrt_qc_sets`` configuration section."""
 
 
 def _get_nrtqc_path_info_sets() -> str:

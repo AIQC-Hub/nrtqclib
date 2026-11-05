@@ -1,6 +1,6 @@
 Configuration of Near-Real Time QC
 ========================================
-The ``nrt_qc`` workflow (``stage="nrt_qc"``) applies automated real-time QC
+The NRT QC workflow applies automated real-time QC
 tests to temperature and salinity profile data and writes the input parquet
 enriched with one flag column per QC item plus a final NRT flag per variable
 (see the :doc:`../how-to/nrt_qc` guide for the workflow overview).
@@ -64,7 +64,7 @@ agreement metrics (same convention as the other modules).
 .. note::
    The flag column may hold integers, strings or floats, and the values may be
    written as ``4`` or as ``"4"``; both sides are read as whole numbers. See
-   :ref:`qc-flag-columns` for the full table.
+   :ref:`aiqclib:qc-flag-columns` for the full table.
 
 `qc_item_sets`
 ^^^^^^^^^^^^^^
@@ -74,7 +74,7 @@ softens a failing test to "probably bad".
 
 For what each item checks, rather than how it is configured, see
 :ref:`nrt-qc-items` in the how-to guide. The same items can be used as model
-input features; see :doc:`../how-to/qc_items_as_features`.
+input features; see :doc:`aiqclib:how-to/qc_items_as_features`.
 
 ================================ ======= ============ =========================================
 Item                             RTQC    Level        Output column(s)

@@ -2,9 +2,9 @@
 
 import pytest
 
-from aiqclib.common.loader.nrtqc_loader import load_nrtqc_step1_input_dataset
+from nrtqclib.loader.nrtqc_loader import load_nrtqc_step1_input_dataset
 from aiqclib.common.utils.input_validation import REQUIRED_INPUT_COLUMNS
-from aiqclib.nrtqc.step1_read_input.dataset_all import InputDataSetAll
+from nrtqclib.step1_read_input.dataset_all import InputDataSetAll
 
 
 class TestNRTQCInput:

@@ -5,12 +5,13 @@ comparison step) and the config template/read round trip via the public
 ``write_config_template`` / ``read_config`` functions.
 """
 
+import inspect
 import os
 
 import polars as pl
 
-import aiqclib as aq
-from aiqclib.common.config.nrtqc_config import NRTQCConfig
+import nrtqclib as nq
+from nrtqclib.config.nrtqc_config import NRTQCConfig
 
 
 def _output_paths(config) -> dict:
@@ -39,7 +40,7 @@ class TestRunNRTQC:
         """All four steps write their outputs for the template config."""
         paths = _output_paths(nrtqc_config_001)
         try:
-            aq.run_nrt_qc(nrtqc_config_001)
+            nq.run_nrt_qc(nrtqc_config_001)
 
             for kind in ("qc", "output", "compare_temp", "compare_psal"):
                 assert os.path.exists(paths[kind]), kind
@@ -57,7 +58,7 @@ class TestRunNRTQC:
 
         paths = _output_paths(nrtqc_config_001)
         try:
-            aq.run_nrt_qc(nrtqc_config_001)
+            nq.run_nrt_qc(nrtqc_config_001)
 
             assert os.path.exists(paths["output"])
             assert not os.path.exists(paths["compare_temp"])
@@ -70,13 +71,13 @@ class TestNRTQCConfigInterface:
     """Template writing and config reading via the public API."""
 
     def test_template_read_round_trip(self, test_output_dir):
-        """write_config_template('nrt_qc') produces a readable config."""
+        """write_config_template produces a readable config."""
         yaml_path = str(test_output_dir / "nrt_qc_template.yaml")
         try:
-            aq.write_config_template(file_name=yaml_path, stage="nrt_qc")
+            nq.write_config_template(yaml_path)
             assert os.path.exists(yaml_path)
 
-            config = aq.read_config(yaml_path)
+            config = nq.read_config(yaml_path)
             assert isinstance(config, NRTQCConfig)
             assert config.dataset_name == "nrt_qc_0001"
             assert config.get_target_names() == ["temp", "psal"]
@@ -85,5 +86,20 @@ class TestNRTQCConfigInterface:
                 os.remove(yaml_path)
 
     def test_public_exports(self):
-        assert "run_nrt_qc" in aq.__all__
-        assert callable(aq.run_nrt_qc)
+        assert set(nq.__all__) == {
+            "read_config",
+            "read_config_template",
+            "run_batch",
+            "run_nrt_qc",
+            "write_config_template",
+        }
+        for name in nq.__all__:
+            assert callable(getattr(nq, name))
+
+
+def test_verbose_defaults_to_false():
+    """Ported from aiqclib's entry-point signature check: existing callers
+    see no progress output unless they ask for it."""
+    parameter = inspect.signature(nq.run_nrt_qc).parameters.get("verbose")
+    assert parameter is not None
+    assert parameter.default is False

@@ -10,7 +10,7 @@ NRT QC flags, comparing the existing and newly computed flags.
 
 from aiqclib.common.base.config_base import ConfigBase
 from aiqclib.common.utils.progress import report_progress
-from aiqclib.common.loader.nrtqc_loader import (
+from nrtqclib.loader.nrtqc_loader import (
     load_nrtqc_step1_input_dataset,
     load_nrtqc_step2_qc_dataset,
     load_nrtqc_step3_concat_dataset,

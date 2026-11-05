@@ -11,6 +11,15 @@ from typing import Dict, List, Optional, Tuple
 from aiqclib.common.base.config_base import ConfigBase
 from aiqclib.common.utils.config import get_config_item
 
+from nrtqclib.config.yaml_schema import get_nrtqc_config_schema
+from nrtqclib.config.yaml_templates import get_config_nrtqc_template
+
+#: The configuration section this class manages.
+SECTION_NAME = "nrt_qc_sets"
+
+#: The ``template:`` identifier of the bundled NRT QC template.
+TEMPLATE_NAME = "template:nrt_qc_sets"
+
 
 class NRTQCConfig(ConfigBase):
     """
@@ -49,10 +58,42 @@ class NRTQCConfig(ConfigBase):
                             "nrt_qc_sets" section.
         """
         super().__init__(
-            section_name="nrt_qc_sets",
+            section_name=SECTION_NAME,
             config_file=config_file,
             auto_select=auto_select,
         )
+
+    @classmethod
+    def get_yaml_schema(cls, section_name: str) -> str:
+        """
+        Return the schema for ``nrt_qc_sets``, deferring to
+        :meth:`ConfigBase.get_yaml_schema` for any other section.
+
+        :param section_name: The top-level configuration section.
+        :type section_name: str
+        :raises ValueError: If no schema is known for the section.
+        :return: The schema as YAML text.
+        :rtype: str
+        """
+        if section_name == SECTION_NAME:
+            return get_nrtqc_config_schema()
+        return super().get_yaml_schema(section_name)
+
+    @classmethod
+    def get_template_text(cls, template_name: str) -> str:
+        """
+        Return the bundled ``template:nrt_qc_sets`` template, deferring to
+        :meth:`ConfigBase.get_template_text` for any other name.
+
+        :param template_name: A ``template:``-prefixed name.
+        :type template_name: str
+        :raises ValueError: If no template goes by that name.
+        :return: The template's YAML text.
+        :rtype: str
+        """
+        if template_name == TEMPLATE_NAME:
+            return get_config_nrtqc_template()
+        return super().get_template_text(template_name)
 
     def select(self, dataset_name: str) -> None:
         """
@@ -63,7 +104,7 @@ class NRTQCConfig(ConfigBase):
         :param dataset_name: The name (key) of the desired set in the YAML's
                              "nrt_qc_sets" section.
         :type dataset_name: str
-        :raises KeyError: If ``dataset_name`` is not present in the
+        :raises ValueError: If ``dataset_name`` is not present in the
                           "nrt_qc_sets" section of the YAML, or if a referenced
                           sub-configuration name (e.g. "qc_item_set") is not
                           found in its corresponding top-level section.
