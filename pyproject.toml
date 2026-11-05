@@ -1,0 +1,50 @@
+[project]
+name = "nrtqclib"
+version = "0.1.0.dev0"
+description = "Near-real-time quality control (NRT QC) for CTD ocean profiles, built on aiqclib"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICEN[CS]E.*"]
+authors = [
+    { name = "Takaya Saito", email = "takaya.saito@outlook.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    # Tighten to ">=0.14,<0.15" once aiqclib 0.14.0 (the extension points in
+    # docs/design/NRTQCLIB_plan.md, Phase 1) is released.
+    "aiqclib>=0.13",
+    "jsonschema>=4.23.0",
+    "polars>=1.30.0",
+    "pyyaml>=6.0.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-cov>=6.2.1",
+    # Same minor as aiqclib's lockfile so both repos lint identically; ruff
+    # 0.17 enables more rules by default. Move both repos together.
+    "ruff>=0.15.12,<0.16",
+    "sphinx>=8.2.3",
+    "sphinx-autodoc-typehints>=3.2.0",
+    "sphinx-rtd-theme>=3.0.2",
+    "sphinx-tabs>=3.4.7",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nrtqclib"]
+
+# Bundle CHANGELOG.md into the installed package.
+[tool.hatch.build.targets.wheel.force-include]
+"CHANGELOG.md" = "nrtqclib/CHANGELOG.md"
+
+# Development only: use the sibling aiqclib checkout, editable, so aiqclib
+# changes (Phase 1 of the migration plan) are picked up without a release.
+# Remove before the first release: CI runs `uv sync --locked` and cannot see
+# ../aiqclib.
+[tool.uv.sources]
+aiqclib = { path = "../aiqclib", editable = true }

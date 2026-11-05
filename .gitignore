@@ -1,0 +1,25 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# IDE
+.idea/
+
+# Sphinx build output
+docs/build/
+
+# Test-generated output (fixtures under tests/data/ are tracked)
+tests/data/test/
+
+# Personal, machine-local Claude Code instructions (not shared)
+CLAUDE.local.md
+
+# Claude Code local settings (machine-specific paths, not for the repo)
+.claude/settings.local.json
