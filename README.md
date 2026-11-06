@@ -1,5 +1,9 @@
 # nrtqclib
 
+[![PyPI - Version](https://img.shields.io/pypi/v/nrtqclib)](https://pypi.org/project/nrtqclib/)
+[![Check Package](https://github.com/AIQC-Hub/nrtqclib/actions/workflows/check_package.yml/badge.svg)](https://github.com/AIQC-Hub/nrtqclib/actions/workflows/check_package.yml)
+[![codecov](https://codecov.io/gh/AIQC-Hub/nrtqclib/graph/badge.svg)](https://codecov.io/gh/AIQC-Hub/nrtqclib)
+
 Near-real-time quality control (NRT QC) for CTD ocean profiles. `nrtqclib`
 applies automated real-time QC tests (Argo/CTD RTQC tests) to temperature and
 salinity profiles, producing per-item flag columns and a final NRT flag per
