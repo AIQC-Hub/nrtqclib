@@ -321,6 +321,17 @@ class TestNRTQCSchema:
         with pytest.raises(ValidationError):
             jsonschema_validate(instance=template_dict, schema=schema)
 
+    def test_qc_write_output_accepted(self, schema, template_dict):
+        """A boolean ``write_output`` on the qc step passes validation."""
+        template_dict["step_param_sets"][0]["steps"]["qc"]["write_output"] = False
+        jsonschema_validate(instance=template_dict, schema=schema)
+
+    def test_non_boolean_qc_write_output_rejected(self, schema, template_dict):
+        """A string ``"false"`` would be truthy and still write the file."""
+        template_dict["step_param_sets"][0]["steps"]["qc"]["write_output"] = "false"
+        with pytest.raises(ValidationError):
+            jsonschema_validate(instance=template_dict, schema=schema)
+
 
 # ---------------------------------------------------------------------------
 # Path resolution through the template

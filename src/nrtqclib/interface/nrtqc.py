@@ -24,7 +24,9 @@ def run_nrt_qc(config: ConfigBase, verbose: bool = False) -> None:
 
     This function performs the following steps in sequence:
       1. Load and read the initial input data.
-      2. Apply the configured QC items and write the per-item flag columns.
+      2. Apply the configured QC items and write the input with the
+         per-item flag columns, unless the ``qc`` step parameters set
+         ``write_output: false`` (step 3's output holds the same columns).
       3. Aggregate the item flags into a final NRT flag per variable
          (applying flag propagation items such as ``temp_to_psal`` last)
          and write the output parquet: the original input columns plus all
@@ -57,7 +59,8 @@ def run_nrt_qc(config: ConfigBase, verbose: bool = False) -> None:
         progress.step("Running QC items")
         ds_qc = load_nrtqc_step2_qc_dataset(config, ds_input.input_data)
         ds_qc.run_qc_items()
-        ds_qc.write_qc_data()
+        if ds_qc.write_output:
+            ds_qc.write_qc_data()
 
         progress.step("Aggregating item flags into final NRT flags")
         ds_concat = load_nrtqc_step3_concat_dataset(config, ds_qc.qc_data)

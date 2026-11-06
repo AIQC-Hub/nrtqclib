@@ -58,6 +58,13 @@ class QCDataSetBase(DataSetBase):
             step_name="qc", default_file_name=self.default_file_name
         )
 
+        #: Whether :func:`nrtqclib.run_nrt_qc` writes the intermediate flag
+        #: file. Set by ``write_output`` in the ``qc`` step parameters; the
+        #: file is a subset of step 3's output, so it can be switched off.
+        self.write_output: bool = self.config.get_step_params("qc").get(
+            "write_output", True
+        )
+
         self.input_data: Optional[pl.DataFrame] = input_data
         #: The input data with all QC item flag columns appended.
         self.qc_data: Optional[pl.DataFrame] = None

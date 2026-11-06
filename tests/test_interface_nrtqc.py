@@ -66,6 +66,21 @@ class TestRunNRTQC:
         finally:
             _cleanup(paths)
 
+    def test_write_output_false_skips_the_qc_file(self, nrtqc_config_001):
+        """``qc: { write_output: false }`` drops only the intermediate file."""
+        nrtqc_config_001.data["step_param_set"]["steps"]["qc"]["write_output"] = False
+
+        paths = _output_paths(nrtqc_config_001)
+        _cleanup(paths)
+        try:
+            nq.run_nrt_qc(nrtqc_config_001)
+
+            assert not os.path.exists(paths["qc"])
+            for kind in ("output", "compare_temp", "compare_psal"):
+                assert os.path.exists(paths[kind]), kind
+        finally:
+            _cleanup(paths)
+
 
 class TestNRTQCConfigInterface:
     """Template writing and config reading via the public API."""
