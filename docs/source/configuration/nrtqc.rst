@@ -3,11 +3,11 @@ Configuration of Near-Real Time QC
 The NRT QC workflow applies automated real-time QC
 tests to temperature and salinity profile data and writes the input parquet
 enriched with one flag column per QC item plus a final NRT flag per variable
-(see the :doc:`../how-to/nrt_qc` guide for the workflow overview).
+(see :doc:`../tutorial/overview` for the workflow).
 
-Prepare **one configuration file per region** (e.g. Arctic, Baltic,
-Mediterranean): the files share the same structure and differ only in
-region-dependent parameters such as the regional ranges.
+Region-dependent parameters, such as the regional ranges, go in one set per
+region: either one file per region, or one file with one ``nrt_qc_sets``
+entry per region, run with ``run_batch``. See :doc:`../how-to/nrt_qc`.
 
 Detailed Configuration Sections
 -------------------------------
@@ -148,10 +148,10 @@ Notes:
     flags temperature and salinity jointly. Observations whose temperature,
     salinity or pressure is outside the range the equation of state is
     defined for (a negative salinity, a placeholder such as -999) have no
-    density and pass, as missing values do; see the
-    :doc:`../how-to/nrt_qc` guide.
+    density and pass, as missing values do; see
+    :doc:`../qc_items/density_inversion`.
 *   **temp_to_psal** propagates the final temperature flag onto salinity
-    (see the :doc:`../how-to/nrt_qc` guide); omit it for independently
+    (see :doc:`../qc_items/temp_to_psal`); omit it for independently
     measured salinity.
 
 .. _nrtqc-final-flag-items:
@@ -160,8 +160,9 @@ Choosing which items decide the final flag
 """"""""""""""""""""""""""""""""""""""""""
 
 Every item feeds the aggregated ``{variable}_nrt_flag`` by default. Set
-``include_in_final_flag: false`` on an item to keep running it while leaving
-it out of that aggregation:
+``include_in_final_flag: false`` on an item to keep running it, and writing
+its column, while leaving it out of that aggregation. ``fail_flag: 3``
+instead lets it lower the final flag only to "probably bad".
 
 .. code-block:: yaml
 
@@ -169,30 +170,14 @@ it out of that aggregation:
      - name: qc_item_set_1
        items:
          - name: global_range
-         - name: spike
+         - name: gradient
+           fail_flag: 3                    # fails as 3, not 4
          - name: stuck_value
            include_in_final_flag: false    # column kept, does not decide
-         - name: digit_rollover
-           include_in_final_flag: false
 
-The excluded item still runs, and its flag column is still written to the
-output, so the set of columns is the same either way. Only the final flag
-changes. This separates *did this test fail* from *does this test decide the
-verdict*, which is what you want for a test that is informative but too
-aggressive to gate on, or one you are still evaluating.
-
-.. note::
-
-   ``temp_to_psal`` reads the aggregated ``temp_nrt_flag`` rather than the
-   raw item columns, so excluding an item from **temperature** also removes
-   it from what propagates to salinity. Excluding ``temp_to_psal`` itself
-   still writes ``psal_qc_temp_to_psal``, but leaves ``psal_nrt_flag``
-   untouched.
-
-The comparison report of step 4 covers every item regardless, so an excluded
-item keeps its ``item_breakdown`` and ``item_breakdown_contingency`` rows.
-That is deliberate: those rows are the evidence for deciding whether to
-exclude it in the first place.
+For when to use which, and how they interact with ``temp_to_psal`` and the
+comparison report, see :ref:`nrtqc-final-flag-guide` and
+:ref:`nrtqc-fail-flag`.
 
 `step_class_sets`
 ^^^^^^^^^^^^^^^^^

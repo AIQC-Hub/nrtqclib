@@ -1,73 +1,96 @@
-Running Near-Real Time Quality Control (NRT QC)
-===============================================
+Tuning NRT QC Runs
+==================
 
-The NRT QC module applies the automated real-time QC tests recommended for
-temperature and salinity profiles (Argo/CTD RTQC tests) to an input dataset
-and writes the original parquet enriched with:
-
-* **one flag column per QC item**, e.g. ``temp_qc_spike`` or
-  ``qc_impossible_date``, usable directly as training features, and
-* **a final NRT flag per variable**: ``temp_nrt_flag`` / ``psal_nrt_flag``,
-  the most severe flag among the variable's applicable item columns.
-
-Flags follow the IOC/Argo scheme: 1 (good), 3 (probably bad), 4 (bad).
-
-Quick start
------------
-
-.. code-block:: python
-
-   import nrtqclib as nq
-
-   nq.write_config_template("/path/to/nrt_qc_config.yaml")
-   # Edit the paths, variables, and QC items in the YAML, then:
-   config = nq.read_config("/path/to/nrt_qc_config.yaml")
-   nq.run_nrt_qc(config)
-
-``nq.read_config_template()`` returns the same template as a configuration
-object, and ``print(config)`` summarizes what a configuration will run.
+This guide covers the choices you make once a basic run works: how to handle
+several regions, how much weight each QC item gets in the final flag, and how
+to read the comparison against the flags already in your data. For a first
+run, start with the :doc:`../tutorial/overview`; for what each item checks,
+see :doc:`../qc_items/overview`.
 
 .. note::
 
    Migrating from ``aiqclib``: ``aq.run_nrt_qc``, ``aq.read_config`` and
-   ``aq.read_config_template("nrt_qc")`` become the ``nq.`` functions above
-   with the same arguments, minus ``stage``.
-   ``aq.write_config_template(path, stage="nrt_qc")`` becomes
-   ``nq.write_config_template(path)``. The pipeline, configuration format and
-   outputs are unchanged.
+   ``aq.read_config_template("nrt_qc")`` become ``nq.run_nrt_qc``,
+   ``nq.read_config`` and ``nq.read_config_template`` with the same
+   arguments, minus ``stage``. ``aq.write_config_template(path,
+   stage="nrt_qc")`` becomes ``nq.write_config_template(path)``. The pipeline,
+   configuration format and outputs are unchanged.
 
-.. _nrt-qc-items:
+Handling Regions
+----------------
 
-The QC items
-------------
+Some items depend on the region, most of all the regional range test, which
+has no defaults. ``nrtqclib`` does not detect the region from the
+coordinates: each run uses the parameters of the set it selects, so a region
+is expressed as its own ``qc_item_sets`` entry with its own ranges, and its
+own ``nrt_qc_sets`` entry that uses it.
 
-``aiqclib`` provides twelve QC items. Eleven implement the Argo/CTD
-real-time tests (RTQC2 to RTQC14); ``temp_to_psal`` is the propagation rule
-from the NRT QC recommendation document rather than a numbered test. An item
-runs only when it is listed in the ``qc_item_sets`` section of the
-configuration file.
+There are two ways to organise that:
 
-Each item has its own page, explaining why the check matters and what it
-flags, with a diagram: start at :doc:`../qc_items/overview`.
+* **One configuration file per region** (Arctic, Baltic, Mediterranean, ...),
+  each holding a single set. The files share their structure and differ only
+  in the region-dependent parameters. Run each with ``nq.run_nrt_qc``.
+* **One file holding every region**, with one ``nrt_qc_sets`` entry per
+  region, run by ``nq.run_batch`` from a table that names the set for each
+  dataset. This is the better choice once there are more than a few regions.
 
-For the output column names, the full default parameters, and the YAML
-syntax for overriding them, see :doc:`../configuration/nrtqc`.
+.. code-block:: python
 
-One configuration file per region
----------------------------------
+   summary = nq.run_batch(
+       "datasets.txt",
+       nrt_qc_config="nrt_qc_config.yaml",
+       verbose=True,
+   )
 
-Some tests are region dependent (most notably the **regional range** test).
-Instead of detecting the region from coordinates, prepare **one configuration
-file per region** (e.g. Arctic, Baltic, Mediterranean): the files share the
-same structure and differ only in region-dependent parameters such as the
-regional ranges or the density inversion threshold.
+See :doc:`batch_processing` for the table format, and :ref:`batch-nrt-qc` for
+how this fits with ``aiqclib``'s training batch.
 
-Choosing which items decide the final flag
+.. _nrtqc-fail-flag:
+
+Softening a Test to "Probably Bad"
+----------------------------------
+
+A failing item writes flag ``4`` (bad) by default. ``fail_flag: 3`` makes it
+write ``3`` (probably bad) instead:
+
+.. code-block:: yaml
+
+   qc_item_sets:
+     - name: qc_item_set_1
+       items:
+         - name: global_range
+         - name: gradient
+           fail_flag: 3
+         - name: position_on_land
+           fail_flag: 3
+
+Use it for a test that is informative but not conclusive on its own: one
+that also fires on real features of your data (a gradient test in a region
+with sharp thermoclines), or one whose input is approximate (a position on
+land test near the coast, where the bathymetry grid is coarse).
+
+What changes, and what does not:
+
+* The final flag is the most severe item flag, so an observation that only a
+  softened item fails ends up ``3``. If another item fails it with ``4``, it
+  stays ``4``.
+* ``temp_to_psal`` copies the final temperature flag with its severity, so a
+  softened temperature failure reaches salinity as ``3``. ``fail_flag`` does
+  not apply to ``temp_to_psal`` itself.
+* Only ``3`` and ``4`` are accepted; any other value fails the configuration
+  check.
+* In the comparison report, the agreement metrics and the ``item_breakdown``
+  rows count any flag above ``1`` as a failure, so they do not change. The
+  ``contingency`` and ``item_breakdown_contingency`` rows show the ``3``.
+
+.. _nrtqc-final-flag-guide:
+
+Choosing Which Items Decide the Final Flag
 ------------------------------------------
 
-By default every enabled item feeds the aggregated
-``{variable}_nrt_flag``. An item can be kept running while being left out of
-that aggregation:
+By default every enabled item feeds the final ``{variable}_nrt_flag``.
+``include_in_final_flag: false`` keeps an item running while leaving it out
+of that decision:
 
 .. code-block:: yaml
 
@@ -78,32 +101,25 @@ that aggregation:
          - name: stuck_value
            include_in_final_flag: false
 
-The item still runs and ``{variable}_qc_stuck_value`` is still written, so
-the output columns are unchanged; only ``{variable}_nrt_flag`` differs. Use
-it when a test is worth recording but too aggressive to gate on, or when you
-want to measure a test's behaviour (via the comparison report, which still
-covers every item) before letting it affect the verdict.
+The item still runs and its column (``{variable}_qc_stuck_value``) is still
+written, so the output has the same columns either way; only
+``{variable}_nrt_flag`` differs. The comparison report also covers every
+item regardless, which is the point: run a new or doubtful test this way,
+check its ``item_breakdown`` rows against the existing flags, and include it
+once it behaves.
+
+``fail_flag`` and ``include_in_final_flag`` are two steps on the same scale:
+``fail_flag: 3`` lets the test lower the final flag to "probably bad", and
+``include_in_final_flag: false`` lets it record its verdict without affecting
+the final flag at all.
 
 Two consequences are worth knowing. Excluding an item from **temperature**
 also removes it from what ``temp_to_psal`` propagates, because that item
-reads the aggregated ``temp_nrt_flag`` rather than the raw columns. And
-excluding ``temp_to_psal`` itself still writes ``psal_qc_temp_to_psal``
-while leaving ``psal_nrt_flag`` alone.
+reads the final ``temp_nrt_flag`` rather than the item columns. And
+excluding ``temp_to_psal`` itself still writes ``psal_qc_temp_to_psal`` but
+leaves ``psal_nrt_flag`` alone.
 
-See :ref:`nrtqc-final-flag-items` for the reference entry.
-
-Temperature-to-salinity propagation
------------------------------------
-
-When salinity is computed from temperature and conductivity, a temperature
-flagged 4 (or 3) corrupts the salinity too. Enabling the ``temp_to_psal``
-item propagates the final temperature flag onto salinity with its severity,
-recorded in its own ``psal_qc_temp_to_psal`` column so the propagation stays
-traceable. Datasets with independently measured salinity simply omit the item
-entirely, or keep it for traceability with
-``include_in_final_flag: false``.
-
-Comparing against existing flags
+Comparing Against Existing Flags
 --------------------------------
 
 When the input already carries NRT QC flags (e.g. ``temp_qc``, ``psal_qc``),
@@ -145,30 +161,3 @@ their own row in the contingency table, so they stay visible instead of being
 folded into a real flag value; the agreement metrics count only the values
 listed in ``pos_flag_values`` / ``neg_flag_values``. The input's flag columns
 are written to the output unchanged, whatever type they use.
-
-Running several regions at once
--------------------------------
-
-``run_batch`` drives NRT QC over a table of datasets:
-
-.. code-block:: python
-
-   summary = nq.run_batch(
-       "datasets.txt",
-       nrt_qc_config="nrt_qc_config.yaml",
-       verbose=True,
-   )
-
-Each row's ``nrt_qc_set_name`` names the set to select, so one configuration
-file holding one entry per region replaces the per-region files suggested
-above. See :doc:`batch_processing` for the table format, and
-:ref:`batch-nrt-qc` for how this fits with ``aiqclib``'s training batch.
-
-Using QC items as training features
------------------------------------
-
-Every QC item is an ordinary feature class registered under a
-``qc_``-prefixed name (``qc_spike``, ``qc_global_range``, …), so the flag
-columns can also be produced inside the Dataset Preparation pipeline and used
-as model inputs. See :doc:`aiqclib:how-to/qc_items_as_features` for how to configure that,
-and for the two items that need extra care there.

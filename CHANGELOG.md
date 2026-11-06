@@ -6,6 +6,10 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-06
+### Changed
+- Docs: the NRT QC how-to becomes "Tuning NRT QC Runs", with the sections repeated elsewhere removed and a new `fail_flag` section
+
 ## [0.1.3] - 2026-11-05
 ### Changed
 - Require `aiqclib>=0.15.2`, whose QC items treat NaN as missing like null; `ctddump` input, which stores missing values as NaN, no longer gets them flagged 4

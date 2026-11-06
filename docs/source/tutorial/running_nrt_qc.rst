@@ -205,9 +205,9 @@ threshold that does not suit the region.
 Next Steps
 ----------
 
-* :doc:`../how-to/nrt_qc` covers the options in depth: softening a test to
-  flag 3, keeping a test out of the final flag, and the propagation from
-  temperature to salinity.
+* :doc:`../how-to/nrt_qc` covers the options in depth: handling regions,
+  softening a test to flag 3, keeping a test out of the final flag, and the
+  comparison report.
 * :doc:`../how-to/batch_processing` runs several regions in one call.
 * :doc:`../qc_items/overview` explains each test.
 * To train a model on the flags, continue with the ``aiqclib`` tutorial at
