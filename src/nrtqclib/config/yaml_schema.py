@@ -217,6 +217,9 @@ properties:
               additionalProperties: false
             qc:
               type: object
+              properties:
+                write_output:
+                  type: boolean
             concat:
               type: object
             compare:

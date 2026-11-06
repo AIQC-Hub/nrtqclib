@@ -208,3 +208,12 @@ class TestWriteQCData:
         qc_step.write_qc_data()
         assert os.path.exists(qc_step.output_file_name)
         os.remove(qc_step.output_file_name)
+
+    def test_write_output_defaults_to_true(self, qc_step):
+        """The template's empty ``qc: { }`` keeps writing the file."""
+        assert qc_step.write_output is True
+
+    def test_write_output_read_from_step_params(self, nrtqc_config_001):
+        nrtqc_config_001.data["step_param_set"]["steps"]["qc"]["write_output"] = False
+        ds_qc = load_nrtqc_step2_qc_dataset(nrtqc_config_001)
+        assert ds_qc.write_output is False

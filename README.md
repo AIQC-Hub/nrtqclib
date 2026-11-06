@@ -87,7 +87,7 @@ nq.run_nrt_qc(config)
 ```
 
 This generates the following output folders:
-- **qc**: The flag columns of every QC item.
+- **qc**: The input data with the flag columns of every QC item, before the final flags. The **nrt_qc** file holds the same columns, so you can skip this one with `qc: { write_output: false }` under `step_param_sets`.
 - **nrt_qc**: The input data with the item flags and the final NRT flags.
 - **compare**: One report per variable comparing the existing and new flags (contingency table, agreement metrics, per-item breakdown).
 
