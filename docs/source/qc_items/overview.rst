@@ -120,11 +120,11 @@ Two settings change this per item, without changing the set of columns:
 
 ``fail_flag``
    ``3`` instead of ``4`` marks a failure as "probably bad", for a test that
-   is useful but not conclusive.
+   is useful but not conclusive. See :ref:`nrtqc-fail-flag`.
 
 ``include_in_final_flag: false``
    The item still runs and writes its column, but does not feed the final
-   flag. See :ref:`nrtqc-final-flag-items`.
+   flag. See :ref:`nrtqc-final-flag-guide`.
 
 Parameters
 ----------
