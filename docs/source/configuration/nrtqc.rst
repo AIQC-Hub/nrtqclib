@@ -201,6 +201,18 @@ Optional parameters per step. The ``input`` step shares the sub-step options
 of the other modules (column renaming, row filtering, column creation and
 validation); the NRT QC template disables row filtering by default.
 
+The ``qc`` step writes ``qc/nrt_qc_flags.parquet``: the input with every item
+flag column, before the final flags are added. The ``concat`` step's output
+holds the same columns and more, so the file is only useful for inspecting
+the run. ``write_output: false`` skips it (default ``true``):
+
+.. code-block:: yaml
+
+   qc: { write_output: false }
+
+A ``qc`` file left by an earlier run stays in place; delete it yourself if it
+is no longer needed.
+
 .. code-block:: yaml
 
    step_param_sets:

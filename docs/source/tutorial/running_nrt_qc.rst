@@ -137,10 +137,15 @@ The files land under ``~/aiqc_project/data/nrt_qc_0001/``:
 .. code-block:: text
 
    nrt_qc_0001/
-     qc/nrt_qc_flags.parquet                      # the item flags only
+     qc/nrt_qc_flags.parquet                      # input + item flags
      nrt_qc/nrt_qc_output.parquet                 # input + item flags + final flags
      compare/nrt_qc_flag_comparison_temp.tsv
      compare/nrt_qc_flag_comparison_psal.tsv
+
+``qc/nrt_qc_flags.parquet`` is an intermediate file: the output file holds the
+same columns, plus the ``temp_to_psal`` flag and the final flags, and nothing
+reads the intermediate file back. Set ``qc: { write_output: false }`` in
+``step_param_sets`` to skip it (see :doc:`../configuration/nrtqc`).
 
 Reading the Output
 ------------------

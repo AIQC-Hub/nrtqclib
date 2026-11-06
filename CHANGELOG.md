@@ -6,6 +6,13 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-11-06
+### Added
+- `qc: { write_output: false }` in `step_param_sets` skips the intermediate `qc/nrt_qc_flags.parquet`, whose columns the `nrt_qc` output already holds
+
+### Fixed
+- Docs: the tutorial said the `qc` file holds only the item flags; it also holds every input column
+
 ## [0.1.5] - 2026-11-06
 ### Added
 - Codecov and CodeFactor badges in the README; a failed coverage upload now fails the Code Coverage workflow
