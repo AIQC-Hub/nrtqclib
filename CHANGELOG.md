@@ -6,7 +6,10 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 ### Added
-- Codecov badge in the README; a failed coverage upload now fails the Code Coverage workflow
+- Codecov and CodeFactor badges in the README; a failed coverage upload now fails the Code Coverage workflow
+
+### Changed
+- README follows `aiqclib`'s layout: QC test table, installation, core concepts, usage, configuration
 
 ## [0.1.4] - 2026-11-06
 ### Changed
