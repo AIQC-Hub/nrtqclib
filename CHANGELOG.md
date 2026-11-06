@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 As this project is still in active development, it does not yet strictly adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.4] - 2026-11-06
 ### Changed
 - Docs: the NRT QC how-to becomes "Tuning NRT QC Runs", with the sections repeated elsewhere removed and a new `fail_flag` section
 
