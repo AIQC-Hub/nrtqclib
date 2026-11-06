@@ -6,6 +6,13 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-06
+### Added
+- Codecov and CodeFactor badges in the README; a failed coverage upload now fails the Code Coverage workflow
+
+### Changed
+- README follows `aiqclib`'s layout: QC test table, installation, core concepts, usage, configuration
+
 ## [0.1.4] - 2026-11-06
 ### Changed
 - Docs: the NRT QC how-to becomes "Tuning NRT QC Runs", with the sections repeated elsewhere removed and a new `fail_flag` section
