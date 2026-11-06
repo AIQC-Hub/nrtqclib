@@ -23,8 +23,12 @@ jobs:
         run: uv sync --locked --all-extras --dev
       - name: Run code coverage
         run: uv run pytest --cov --cov-branch --cov-report=xml
+      # The token is the AIQC-Hub organisation secret, shared with the other
+      # repositories that report to Codecov. A failed upload fails the run, so
+      # it does not pass unnoticed.
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: AIQC-Hub/nrtqclib
+          fail_ci_if_error: true
