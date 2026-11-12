@@ -6,6 +6,10 @@ As this project is still in active development, it does not yet strictly adhere 
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-11-12
+### Added
+- `CITATION.cff` with the citation metadata (title, author, licence, version), which GitHub shows as "Cite this repository" and Zenodo uses to archive each release with a DOI
+
 ## [0.1.6] - 2026-11-06
 ### Added
 - `qc: { write_output: false }` in `step_param_sets` skips the intermediate `qc/nrt_qc_flags.parquet`, whose columns the `nrt_qc` output already holds
