@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 As this project is still in active development, it does not yet strictly adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.7] - 2026-11-12
 ### Added
 - `CITATION.cff` with the citation metadata (title, author, licence, version), which GitHub shows as "Cite this repository" and Zenodo uses to archive each release with a DOI
 
