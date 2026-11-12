@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata in this file."
+type: software
+title: "nrtqclib"
+abstract: >-
+  A Python library that runs near-real-time quality control (NRT QC) on CTD
+  (Conductivity, Temperature, Depth) ocean profiles: it applies the automated
+  real-time QC tests to temperature and salinity, writes one flag column per
+  test and a final NRT flag per variable, and compares the new flags with the
+  ones already in the data.
+authors:
+  - family-names: "Saito"
+    given-names: "Takaya"
+repository-code: "https://github.com/AIQC-Hub/nrtqclib"
+url: "https://nrtqclib.readthedocs.io/"
+license: MIT
+keywords:
+  - oceanography
+  - CTD
+  - quality control
+  - near real time
+  - Python
+version: "0.1.6"
+date-released: "2026-11-06"

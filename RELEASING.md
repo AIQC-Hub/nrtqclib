@@ -21,8 +21,20 @@ relevant code has changed since the last release.
 4. **Update `CHANGELOG.md`**: record the changes for the new version.
 5. **Bump the version** in `pyproject.toml`, then run `uv sync` so `uv.lock`
    records it.
+   Set `version` and `date-released` in `CITATION.cff` to match; Zenodo copies
+   both into the archived record.
 6. **Commit, then create the release**: once merged into `main`, creating a
    GitHub release triggers the PyPI publish.
+
+## Zenodo
+
+The repository is connected to [Zenodo](https://zenodo.org/) through its GitHub
+integration, so every published GitHub release is archived and gets its own
+DOI, plus one concept DOI that always resolves to the latest version. Zenodo
+takes the title, author, licence and version from `CITATION.cff`, which is why
+step 5 keeps it current. If a release is missing on Zenodo, check that the
+integration is still switched on for `AIQC-Hub/nrtqclib` in Zenodo's GitHub
+settings.
 
 ## Building docs locally
 
